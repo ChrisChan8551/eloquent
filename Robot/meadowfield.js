@@ -15,8 +15,12 @@ const roads = [
 	'Shop-Town Hall',
 ];
 
+//!  buildGraph creates a map object that, for each node, stores an array of connected nodes.
+//! It uses the split method to go from the road strings—which have the form "Start-End")—to two-element arrays containing the start and end as separate strings.
+
 function buildGraph(edges) {
-	let graph = Object.create(null);
+	// let graph = Object.create(null);
+    let graph = {}
 	function addEdge(from, to) {
 		if (from in graph) {
 			graph[from].push(to);
@@ -32,6 +36,7 @@ function buildGraph(edges) {
 }
 
 const roadGraph = buildGraph(roads);
+console.log("roadGraph: ", roadGraph)
 
 class VillageState {
 	constructor(place, parcels) {
@@ -59,12 +64,12 @@ let first = new VillageState('Post Office', [
 ]);
 let next = first.move("Alice's House");
 
-console.log(next.place);
-// → Alice's House
-console.log(next.parcels);
-// → []
-console.log(first.place);
-// → Post Office
+// console.log(next.place);
+// // → Alice's House
+// console.log(next.parcels);
+// // → []
+// console.log(first.place);
+// // → Post Office
 
 function runRobot(state, robot, memory) {
 	for (let turn = 0; ; turn++) {
@@ -101,11 +106,11 @@ VillageState.random = function (parcelCount = 5) {
 	return new VillageState('Post Office', parcels);
 };
 
-runRobot(VillageState.random(), randomRobot);
-// → Moved to Marketplace
-// → Moved to Town Hall
-// → …
-// → Done in 63 turns
+// runRobot(VillageState.random(), randomRobot);
+// // → Moved to Marketplace
+// // → Moved to Town Hall
+// // → …
+// // → Done in 63 turns
 
 const mailRoute = [
 	"Alice's House",
