@@ -20,7 +20,7 @@ const roads = [
 
 function buildGraph(edges) {
 	// let graph = Object.create(null);
-    let graph = {}
+	let graph = {};
 	function addEdge(from, to) {
 		if (from in graph) {
 			graph[from].push(to);
@@ -36,7 +36,7 @@ function buildGraph(edges) {
 }
 
 const roadGraph = buildGraph(roads);
-console.log("roadGraph: ", roadGraph)
+// console.log("roadGraph: ", roadGraph)
 
 class VillageState {
 	constructor(place, parcels) {
@@ -64,12 +64,12 @@ let first = new VillageState('Post Office', [
 ]);
 let next = first.move("Alice's House");
 
-// console.log(next.place);
-// // → Alice's House
-// console.log(next.parcels);
-// // → []
-// console.log(first.place);
-// // → Post Office
+console.log(next.place);
+// → Alice's House
+console.log(next.parcels);
+// → []
+console.log(first.place);
+// → Post Office
 
 function runRobot(state, robot, memory) {
 	for (let turn = 0; ; turn++) {
@@ -107,10 +107,10 @@ VillageState.random = function (parcelCount = 5) {
 };
 
 // runRobot(VillageState.random(), randomRobot);
-// // → Moved to Marketplace
-// // → Moved to Town Hall
-// // → …
-// // → Done in 63 turns
+// → Moved to Marketplace
+// → Moved to Town Hall
+// → …
+// → Done in 63 turns
 
 const mailRoute = [
 	"Alice's House",
@@ -135,6 +135,7 @@ function routeRobot(state, memory) {
 	return { direction: memory[0], memory: memory.slice(1) };
 }
 
+// Looking for the shortest route before looking at longer ones. When searching for a route from A to B, we are interested only in the ones that start at A. We also don’t care about routes that visit the same place twice—those are definitely not the most efficient route anywhere. So that cuts down on the number of routes that the route finder has to consider.
 function findRoute(graph, from, to) {
 	let work = [{ at: from, route: [] }];
 	for (let i = 0; i < work.length; i++) {
@@ -159,3 +160,5 @@ function goalOrientedRobot({ place, parcels }, route) {
 	}
 	return { direction: route[0], memory: route.slice(1) };
 }
+
+runRobot(VillageState.random(), goalOrientedRobot, []);
