@@ -15,7 +15,7 @@ const roads = [
 	'Shop-Town Hall',
 ];
 
-//!  buildGraph creates a map object that, for each node, stores an array of connected nodes.
+//! buildGraph creates a map object that, for each node, stores an array of connected nodes.
 //! It uses the split method to go from the road strings—which have the form "Start-End")—to two-element arrays containing the start and end as separate strings.
 
 function buildGraph(edges) {
@@ -64,12 +64,12 @@ let first = new VillageState('Post Office', [
 ]);
 let next = first.move("Alice's House");
 
-console.log(next.place);
-// → Alice's House
-console.log(next.parcels);
-// → []
-console.log(first.place);
-// → Post Office
+//! console.log(next.place);
+// // → Alice's House
+//! console.log(next.parcels);
+// // → []
+//! console.log(first.place);
+// // → Post Office
 
 function runRobot(state, robot, memory) {
 	for (let turn = 0; ; turn++) {
@@ -161,10 +161,38 @@ function goalOrientedRobot({ place, parcels }, route) {
 	return { direction: route[0], memory: route.slice(1) };
 }
 
-runRobot(VillageState.random(), goalOrientedRobot, []);
+//! runRobot(VillageState.random(), goalOrientedRobot, []);
+
+/* Write a function compareRobots that takes two robots (and their starting memory). It should generate 100 tasks and let both of the robots solve each of these tasks. When done, it should output the average number of steps each robot took per task.
+
+For the sake of fairness, make sure you give each task to both robots, rather than generating different tasks per robot.
+
+You’ll have to write a variant of the runRobot function that, instead of logging the events to the console, returns the number of steps the robot took to complete the task.
+
+Your measurement function can then, in a loop, generate new states and count the steps each of the robots takes. When it has generated enough measurements, it can use console.log to output the average for each robot, which is the total number of steps taken divided by the number of measurements.
+*/
+
+function countSteps(state, robot, memory) {
+	for (let steps = 0; ; steps++) {
+		if (state.parcels.length == 0) return steps;
+		let action = robot(state, memory);
+		state = state.move(action.direction);
+		memory = action.memory;
+	}
+}
 
 function compareRobots(robot1, memory1, robot2, memory2) {
-    // Your code here
-  }
+	// Your code here
+	let total1 = 0,
+		total2 = 0;
+	for (let i = 0; i < 100; i++) {
+		let state = VillageState.random();
+		total1 += countSteps(state, robot1, memory1);
+		total2 += countSteps(state, robot2, memory2);
+	}
+	console.log(`Robot 1 needed ${total1 / 100} steps per task`);
+	console.log(`Robot 2 needed ${total2 / 100}`);
+}
 
-  compareRobots(routeRobot, [], goalOrientedRobot, []);
+compareRobots(routeRobot, [], goalOrientedRobot, []);
+
