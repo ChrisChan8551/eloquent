@@ -18,7 +18,14 @@ function primitiveMultiply(a, b) {
 
 function reliableMultiply(a, b) {
 	// Your code here.
-	return a * b;
+	// The call to primitiveMultiply should definitely happen in a try block. The corresponding catch block should rethrow the exception when it is not an instance of MultiplicatorUnitFailure and ensure the call is retried when it is.
+	for (;;) {
+		try {
+			return primitiveMultiply(a, b);
+		} catch (e) {
+			if (!e instanceof MultiplicatorUnitFailure) throw e;
+		}
+	}
 }
 
 console.log(reliableMultiply(8, 8));
