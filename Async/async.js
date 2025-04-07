@@ -13,7 +13,7 @@ for (let power of powers(3)) {
 // → 3
 // → 9
 // → 27
-
+//
 // Quiet Times
 // There’s a security camera near Carla’s lab that’s activated by a motion sensor. It is connected to the network and starts sending out a video stream when it is active. Because she’d rather not be discovered, Carla has set up a system that notices this kind of wireless network traffic and turns on a light in her lair whenever there is activity outside, so she knows when to keep quiet.
 
